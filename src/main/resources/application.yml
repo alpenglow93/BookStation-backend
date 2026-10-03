@@ -1,0 +1,48 @@
+# port => default : 8080
+# Spring => 데이터베이스 (Datasource)
+server:
+  port: 8080
+  servlet: 
+    context-path: /
+
+spring:
+  application:
+    name: BookStation
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+# web => upload
+
+  jpa:
+    # hibernate db 스키마 자동 변경 방어
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+    open-in-view: false
+#        => JPA / MyBatis / ThymeLeaf
+  # spring AI
+  ai:
+    model:
+      chat: google-genai
+
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+
+        chat:
+          model: gemini-3.5-flash
+          temperature: 0.4
+
+        embedding:
+          api-key: ${GEMINI_API_KEY}
+          text:
+            model: gemini-embedding-001
+            dimensions: 768
