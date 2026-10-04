@@ -30,6 +30,11 @@ public class RecommendServiceImpl implements RecommendService
 		this.uRepo = uRepo;
 		this.chatClient = builder.build();
 	}
+	
+	private String normalizeTitle(String title)
+	{
+		return title.replaceAll("\\s*\\d+(권|화)$", "").trim();
+	}
 
 	@Override
 	@Transactional(readOnly = true)

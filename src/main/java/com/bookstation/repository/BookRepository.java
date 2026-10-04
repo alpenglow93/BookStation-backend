@@ -35,6 +35,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 				select ub.book_id
 				from user_book ub
 			)
+			and not exists (
+				select 1
+				from user_book ub2
+				join book lb on lb.id = ub2.book_id
+				where lb.embedding <=> b.embedding < 0.07
+			)
 			and t.taste is not null
 			and (CAST(:category AS text) IS NULL OR b.category LIKE :category || '%')
 			order by b.embedding <=> t.taste

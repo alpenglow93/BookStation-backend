@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,7 +59,7 @@ public class LibraryServiceImpl implements LibraryService
 	@Transactional(readOnly = true)
 	public List<UserBookResponseDTO> userBookList() 
 	{
-		List<UserBook> list = uRepo.findAll();
+		List<UserBook> list = uRepo.findAll(Sort.by(Sort.Direction.DESC, "id"));
 		List<UserBookResponseDTO> uList = new ArrayList<>();
 		
 		for(UserBook userBook:list)
