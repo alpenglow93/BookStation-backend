@@ -16,6 +16,8 @@ public class UserBookResponseDTO {
 	private String coverUrl;
 	
 	private String platformName;
+
+	private String memo;
 	
 	private String status;
 	private Integer rating;

@@ -75,7 +75,10 @@ public class LibraryServiceImpl implements LibraryService
 			dto.setCategory(userBook.getBook().getCategory());
 			dto.setCoverUrl(userBook.getBook().getCover_url());
 			
+			
 			dto.setPlatformName(userBook.getPlatform().getName());
+			
+			dto.setMemo(userBook.getMemo());
 			
 			dto.setStatus(userBook.getStatus());
 			dto.setRating(userBook.getRating());
