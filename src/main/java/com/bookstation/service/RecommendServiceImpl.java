@@ -1,9 +1,6 @@
 package com.bookstation.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -47,7 +44,20 @@ public class RecommendServiceImpl implements RecommendService
 	public List<RecommendResponseDTO> recommendWithReason(String category, int limit) 
 	{
 		// 1. 추천 책 10권 가져오기
-		List<Book> recommendList = bRepo.findRecommendBook(category, limit);
+		List<Book> candidates = bRepo.findRecommendBook(category, limit * 2);
+		Set<String> seen = new HashSet<>();
+		List<Book> recommendList = new ArrayList<>();
+		
+		for(Book b : candidates)
+		{
+			String key = normalizeTitle(b.getTitle()) + "|" + String.valueOf(b.getAuthor());
+			
+			if(!seen.add(key)) continue;
+			
+			recommendList.add(b);
+			
+			if(recommendList.size() == limit) break;
+		}
 		
 		if(recommendList.isEmpty())
 			return new ArrayList<>();
@@ -68,7 +78,7 @@ public class RecommendServiceImpl implements RecommendService
 		}
 		sb.append("\n\n");
 		
-		sb.append("아래 후보 도서 각각에 대해 사용자의 취향과 연결해서 왜 추천하는지 한국어 1~2 문장으로 써줘. \n\n");
+		sb.append("아래 후보 도서 각각에 대해 사용자의 취향과 연결해서 왜 추천하는지 한국어 2 문장 (180자 이내)으로 써줘. \n\n");
 		
 		for(Book b : recommendList)
 		{

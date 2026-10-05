@@ -35,14 +35,16 @@ spring:
 
     google:
       genai:
-        api-key: ${GEMINI_API_KEY}
+        api-key: ${GEMINI_API_KEY2}
 
         chat:
           model: gemini-3.5-flash
           temperature: 0.4
+          max-output-tokens: 8192
+          thinking-level: low
 
         embedding:
-          api-key: ${GEMINI_API_KEY}
+          api-key: ${GEMINI_API_KEY2}
           text:
             model: gemini-embedding-001
             dimensions: 768
