@@ -5,7 +5,7 @@
 - 개발 기간: 2026.09.26 ~ 2026.10.
 - 개발 인원: 1인 (백엔드, 프론트엔드, 데이터 수집)
 - 설계 문서: [요구사항 정의서, 테이블 정의서 (Notion)](https://app.notion.com/p/BookStation-E-BOOK-3dcb5f43b00980fa9a9dfceb7badfb8d?source=copy_link)
-- 프론트엔드 저장소: [BookStation-frontend](https://github.com/아이디/BookStation-frontend)
+- 프론트엔드 저장소: [BookStation-frontend](https://github.com/alpenglow93/BookStation-frontend)
 
 <!-- 화면 캡처: 내 서재 / 도서 검색 / AI 추천 / 상세 모달 -->
 <!-- ![내 서재](docs/library.png) -->
