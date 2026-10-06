@@ -3,6 +3,7 @@ package com.bookstation.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -49,4 +50,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	public List<Book> findRecommendBook(@Param("category") String category, @Param("limit") int limit);
 	
 	public Page<Book> findByTitleContaining(String title, Pageable pageable);
+	
+	// @Query는 기본적으로 조회용이기 때문에 update나 delete를 하려면 @Modifying을 붙여줘야한다
+	@Modifying
+	@Query(value = """
+			update book set embedding = cast(:embedding as vector)
+			where id = :id
+			""", nativeQuery = true)
+	int updateEmbedding(@Param("id") Long id, @Param("embedding") String embedding);
 }

@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bookstation.dto.ManualBookRequestDTO;
 import com.bookstation.dto.UserBookRequestDTO;
 import com.bookstation.entity.Book;
 import com.bookstation.service.BookService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import java.util.*;
 
@@ -72,6 +74,27 @@ public class BookController {
 		return ResponseEntity.ok(vo);
 	}
 	
-	
+	@PostMapping("/api/books")
+	public ResponseEntity<Map> add_book_manual(@Valid @RequestBody ManualBookRequestDTO dto)
+	{
+		Map map = new HashMap();
+		
+		try 
+		{
+			Long id = bService.addManualBook(dto);
+			map.put("id", id);
+			
+		}
+		catch(NoSuchElementException ex)
+		{
+			ex.printStackTrace();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		return ResponseEntity.ok(map);
+	}
 	
 }
