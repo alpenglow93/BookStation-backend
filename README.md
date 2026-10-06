@@ -216,7 +216,7 @@ API 문서: `http://localhost:8080/swagger-ui.html`
 
 ### 4. 프론트엔드 실행
 
-[BookStation-frontend](https://github.com/아이디/BookStation-frontend) 저장소에서
+[BookStation-frontend](https://github.com/alpenglow93/BookStation-frontend) 저장소에서
 
 ```
 npm install
