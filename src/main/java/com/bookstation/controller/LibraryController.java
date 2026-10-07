@@ -88,6 +88,11 @@ public class LibraryController
 			ex.printStackTrace();
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
+		catch (IllegalStateException ex)
+		{
+			ex.printStackTrace();
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
 		catch (Exception ex) {
 			ex.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

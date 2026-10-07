@@ -78,7 +78,7 @@ public class RecommendServiceImpl implements RecommendService
 		}
 		sb.append("\n\n");
 		
-		sb.append("아래 후보 도서 각각에 대해 사용자의 취향과 연결해서 왜 추천하는지 한국어 2 문장 (180자 이내)으로 써줘. \n\n");
+		sb.append("아래 후보 도서 각각에 대해 사용자의 취향과 연결해서 왜 추천하는지 한국어 2 문장 (170자 이내)으로 써줘. \n\n");
 		
 		for(Book b : recommendList)
 		{

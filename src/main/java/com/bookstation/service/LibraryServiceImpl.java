@@ -75,7 +75,7 @@ public class LibraryServiceImpl implements LibraryService
 			dto.setCategory(userBook.getBook().getCategory());
 			dto.setCoverUrl(userBook.getBook().getCover_url());
 			
-			
+			dto.setPlatformId(userBook.getPlatform().getId());
 			dto.setPlatformName(userBook.getPlatform().getName());
 			
 			dto.setMemo(userBook.getMemo());
@@ -107,6 +107,8 @@ public class LibraryServiceImpl implements LibraryService
 			
 			if(oldStatus.equals("WISHLIST") && !newStatus.equals("WISHLIST") && dto.getPurchasedAt()==null)
 				userBook.setPurchased_at(LocalDate.now());
+			if(newStatus.equals("WISHLIST") && !oldStatus.equals("WISHLIST"))
+				userBook.setPurchased_at(null);
 		}
 		
 		if(dto.getRating() != null)
@@ -115,8 +117,13 @@ public class LibraryServiceImpl implements LibraryService
 			userBook.setMemo(dto.getMemo());
 		if(dto.getPurchasedAt() != null)
 			userBook.setPurchased_at(dto.getPurchasedAt());
-		
-		
+		if(dto.getPlatformId() != null && !dto.getPlatformId().equals(userBook.getPlatform().getId()))
+		{
+			if(uRepo.existsByBookIdAndPlatformId(userBook.getBook().getId(), dto.getPlatformId())) throw new IllegalStateException();
+				
+			Platform platform = pRepo.findById(dto.getPlatformId()).orElseThrow();
+			userBook.setPlatform(platform);
+		}
 	}
 
 	@Override

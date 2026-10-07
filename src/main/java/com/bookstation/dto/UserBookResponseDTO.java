@@ -15,6 +15,7 @@ public class UserBookResponseDTO {
 	private String category;
 	private String coverUrl;
 	
+	private Long platformId;
 	private String platformName;
 
 	private String memo;
