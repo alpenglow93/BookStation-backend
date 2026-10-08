@@ -2,16 +2,16 @@
 
 리디북스, 카카오페이지, 네이버 시리즈에 흩어져 있는 웹소설과 e북을 **한 서재에 모아 관리**하고, 내 독서 기록을 바탕으로 **AI가 다음에 읽을 책을 추천**해 주는 서비스입니다.
 
-- 개발 기간: 2026.09.26 ~ 2026.10.
+- 개발 기간: 2026.09.26 ~ 2026.10.10 (1차 완성), 이후 기능 개선 중
 - 개발 인원: 1인 (백엔드, 프론트엔드, 데이터 수집)
 - 설계 문서: [요구사항 정의서, 테이블 정의서 (Notion)](https://app.notion.com/p/BookStation-E-BOOK-3dcb5f43b00980fa9a9dfceb7badfb8d?source=copy_link)
 - 프론트엔드 저장소: [BookStation-frontend](https://github.com/alpenglow93/BookStation-frontend)
 
 <!-- 화면 캡처: docs 폴더에 이미지를 넣고 아래 주석을 풀어 주세요 -->
-<!-- ![내 서재](docs/library.png) -->
-<!-- ![도서 검색](docs/search.png) -->
-<!-- ![AI 추천](docs/recommend.png) -->
-<!-- ![상세 보기](docs/detail.png) -->
+![내 서재](docs/library.png)
+![도서 검색](docs/search.png)
+![AI 추천](docs/recommend.png)
+![상세 보기](docs/detail.png)
 
 ---
 
