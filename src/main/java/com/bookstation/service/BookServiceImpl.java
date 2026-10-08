@@ -41,21 +41,17 @@ public class BookServiceImpl implements BookService
 	}
 	
 	@Override
-	public Page<Book> bookListData(int page, String keyword) 
+	public Page<Book> bookListData(int page, String keyword, String category) 
 	{
 		final int ROWSIZE = 12;
 		
 		Pageable pg = PageRequest.of(page-1, ROWSIZE, Sort.by(Sort.Direction.ASC, "id"));
 		Page<Book> bList = null;
 		
-		if(keyword == null || keyword.isBlank())
-		{
-			 bList = bRepo.findAll(pg);			
-		}
-		else
-		{
-			bList = bRepo.findByTitleContaining(keyword, pg);
-		}
+		String safeKeyword = (keyword == null) ? "" : keyword.trim();
+		String safeCategory = (category == null) ? "" : category;
+		
+		bList = bRepo.findByTitleContainingAndCategoryStartingWith(safeKeyword, safeCategory, pg);
 		
 		return bList;
 	}

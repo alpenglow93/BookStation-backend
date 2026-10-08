@@ -112,7 +112,18 @@ public class LibraryServiceImpl implements LibraryService
 		}
 		
 		if(dto.getRating() != null)
+		{
+			if(userBook.getStatus().equals("WISHLIST") || userBook.getStatus().equals("UNREAD"))
+			{
+				throw new IllegalArgumentException();
+			}
+			if(dto.getRating() < 1 || dto.getRating() > 5)
+			{
+				throw new IllegalArgumentException();
+			}
+		
 			userBook.setRating(dto.getRating());
+		}
 		if(dto.getMemo() != null)
 			userBook.setMemo(dto.getMemo());
 		if(dto.getPurchasedAt() != null)

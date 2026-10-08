@@ -9,7 +9,7 @@ import com.bookstation.entity.Book;
 
 public interface BookService 
 {
-	public Page<Book> bookListData(int page, String keyword);
+	public Page<Book> bookListData(int page, String keyword, String category);
 	public int[] getPageData(int page, int total);
 	public Book bookDetailData(Long id);
 	

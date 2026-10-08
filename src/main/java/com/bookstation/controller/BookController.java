@@ -7,12 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstation.dto.ManualBookRequestDTO;
-import com.bookstation.dto.UserBookRequestDTO;
 import com.bookstation.entity.Book;
 import com.bookstation.service.BookService;
 
@@ -26,13 +24,17 @@ public class BookController {
 	private final BookService bService;
 	
 	@GetMapping("/api/books")
-	public ResponseEntity<Map> book_list(@RequestParam("page") int page, @RequestParam(value = "keyword", required =  false) String keyword)
+	public ResponseEntity<Map> book_list(
+				@RequestParam("page") int page, 
+				@RequestParam(value = "keyword", required =  false) String keyword, 
+				@RequestParam(value = "category", required = false) String category
+			)
 	{
 		Map map = new HashMap();
 		
 		try 
 		{
-			Page<Book> result = bService.bookListData(page, keyword);
+			Page<Book> result = bService.bookListData(page, keyword, category);
 			List<Book> list = result.getContent();
 			int totalpage = result.getTotalPages();
 			

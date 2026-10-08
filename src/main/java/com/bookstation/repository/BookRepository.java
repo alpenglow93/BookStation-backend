@@ -49,7 +49,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 						""", nativeQuery = true)
 	public List<Book> findRecommendBook(@Param("category") String category, @Param("limit") int limit);
 	
-	public Page<Book> findByTitleContaining(String title, Pageable pageable);
+	public Page<Book> findByTitleContainingAndCategoryStartingWith(String title, String category, Pageable pageable);
 	
 	// @Query는 기본적으로 조회용이기 때문에 update나 delete를 하려면 @Modifying을 붙여줘야한다
 	@Modifying
