@@ -6,12 +6,22 @@
 - 개발 인원: 1인 (백엔드, 프론트엔드, 데이터 수집)
 - 설계 문서: [요구사항 정의서, 테이블 정의서 (Notion)](https://app.notion.com/p/BookStation-E-BOOK-3dcb5f43b00980fa9a9dfceb7badfb8d?source=copy_link)
 - 프론트엔드 저장소: [BookStation-frontend](https://github.com/alpenglow93/BookStation-frontend)
+  
+<br>
+
+  **핵심 포인트**
+- 줄거리 임베딩(pgvector)과 평점 가중치로 취향 벡터를 만들어 추천하고, Gemini로 추천 이유를 생성하는 RAG 구조
+- 같은 작품의 웹소설판·e북판을 임베딩 거리로 판별해 중복 추천 제거
+- 외부 AI API 장애와 무료 한도(하루 20회)를 고려해, 실패해도 목록은 보여주고 호출 수를 줄이도록 설계
+
+<br>
 
 <!-- 화면 캡처: docs 폴더에 이미지를 넣고 아래 주석을 풀어 주세요 -->
-![내 서재](docs/library.png)
-![도서 검색](docs/search.png)
-![AI 추천](docs/recommend.png)
-![상세 보기](docs/detail.png)
+| 내 서재 | 도서 검색 |
+| --- | --- |
+| ![내 서재](docs/library.png) | ![도서 검색](docs/search.png) |
+| **AI 추천** | **상세 보기** |
+| ![AI 추천](docs/recommend.png) | ![상세 보기](docs/detail.png) |
 
 ---
 
@@ -25,6 +35,7 @@
 | API 문서 | springdoc-openapi (Swagger UI) |
 | Frontend | React, TypeScript, Vite, axios, react-router-dom |
 | 데이터 | 리디북스 도서 약 4,300권 수집, 줄거리 임베딩 사전 생성 |
+| 개발 환경 | STS, WebStorm, Docker (PostgreSQL), DBeaver, Git |
 
 ---
 
@@ -55,9 +66,39 @@
 
 ```mermaid
 flowchart LR
-    U[React] -- REST API --> C[Spring Boot]
-    C -- JPA / Native Query --> D[(PostgreSQL + pgvector)]
-    C -- Spring AI --> G[Gemini API]
+    subgraph FE["Frontend"]
+        React["React + TypeScript<br/>(Vite)"]
+    end
+
+    subgraph BE["Backend (Spring Boot)"]
+        API["REST Controller"]
+        Service["Service<br/>(서재 / 도서 / 추천)"]
+        AI["Spring AI<br/>(ChatClient / EmbeddingModel)"]
+        Repo["JPA Repository<br/>(네이티브 쿼리)"]
+    end
+
+    subgraph DATA["Data"]
+        PG[("PostgreSQL<br/>+ pgvector")]
+    end
+
+    subgraph EXT["External"]
+        Gemini["Gemini API<br/>(임베딩 / 추천 이유)"]
+    end
+
+    subgraph BATCH["데이터 준비 (별도 실행)"]
+        Crawler["리디북스 크롤러"]
+        Embed["임베딩 배치"]
+    end
+
+    React <-->|"REST / JSON"| API
+    API --> Service
+    Service --> Repo
+    Service --> AI
+    Repo <-->|"CRUD, 취향 벡터 계산,<br/>코사인 거리 검색"| PG
+    AI <--> Gemini
+    Crawler -->|"INSERT .sql"| PG
+    Embed -->|"줄거리 임베딩 저장"| PG
+    Embed -.-> Gemini
 ```
 
 추천 흐름은 두 단계입니다.
@@ -222,13 +263,13 @@ GEMINI_API_KEY=
 
 ### 2. 데이터베이스
 
-PostgreSQL에 pgvector 확장이 필요합니다.
+   `ddl-auto: none` 설정이므로 테이블은 미리 만들어 두어야 합니다.
+   
+   `docs/schema.sql`을 실행해 테이블과 플랫폼 초기 데이터를 생성합니다.
 
-```sql
-CREATE EXTENSION IF NOT EXISTS vector;
-```
+> 참고: 수집한 도서 데이터(크롤링 데이터)는 저작권 문제로 레포에 포함하지 않았습니다.
+> 스키마만 생성한 경우 "책 직접 등록" 기능으로 도서를 추가해 사용할 수 있습니다.
 
-`ddl-auto: none` 설정이므로 테이블은 미리 만들어 두어야 합니다.
 
 ### 3. 백엔드 실행
 
