@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstation.dto.RecommendResponseDTO;
-import com.bookstation.entity.Book;
 import com.bookstation.service.RecommendService;
 
 import lombok.RequiredArgsConstructor;

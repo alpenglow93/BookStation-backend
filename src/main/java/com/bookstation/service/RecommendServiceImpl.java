@@ -1,6 +1,11 @@
 package com.bookstation.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -92,9 +97,7 @@ public class RecommendServiceImpl implements RecommendService
 				
 		}
 		
-		String prompt = sb.toString();
-		System.out.println(prompt);
-		
+		String prompt = sb.toString();		
 		
 		// 4. Gemini에 질문하고 답 받기
 		List<RecommendReasonDTO> reasons = null;
